@@ -42,7 +42,7 @@ def PREDICCIONES(participantes, total):
 
 # ---- CÓDIGO PRINCIPAL ----
 
-df_resultado = pd.read_excel("resultados.xlsx")
+df_resultado = pd.read_excel("Resultados.xlsx", header=None, names=["A","B","C","D","E","F","G","H"])
 p_jugados = int(df_resultado["H"].count())
 df_resultado["E"] = np.where(df_resultado["B"] > df_resultado["C"], "L",
                     np.where(df_resultado["B"] < df_resultado["C"], "V", "E"))
@@ -51,7 +51,7 @@ archivos = glob.glob("carpeta/*.xlsx")
 participantes = []
 for archivo in archivos:
     nombre = os.path.splitext(os.path.basename(archivo))[0]
-    df_participante = pd.read_excel(archivo)
+    df_participante = pd.read_excel(archivo, header=None, names=["A","B","C","D","E","F","G","H"])
     df_participante = CALCULAR_PUNTOS(df_resultado, df_participante)
     participantes.append([nombre, df_participante])
 
