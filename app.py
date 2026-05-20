@@ -7,6 +7,8 @@ import streamlit as st
 # ---- FUNCIONES ----
 
 def CALCULAR_PUNTOS(df_resultado, df_participante):
+    df_resultado = df_resultado.reset_index(drop=True)
+    df_participante = df_participante.reset_index(drop=True)
     df_participante["E"] = np.where(df_participante["B"] > df_participante["C"], "L",
                             np.where(df_participante["B"] < df_participante["C"], "V", "E"))
     condiciones = [
