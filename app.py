@@ -65,8 +65,9 @@ for archivo in archivos:
     df_participante = CALCULAR_PUNTOS(df_resultado, df_participante)
     participantes.append([nombre, df_participante])
 
-df_tabla = TABLA_PUNTAJES(participantes)
-tablas_fechas = PREDICCIONES(participantes, 78)
+total_partidos = len(participantes[0][1])
+tablas_fechas = PREDICCIONES(participantes, total_partidos)
+
 
 # ---- STREAMLIT ----
 
