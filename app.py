@@ -9,14 +9,22 @@ import streamlit as st
 def CALCULAR_PUNTOS(df_resultado, df_participante):
     df_resultado = df_resultado.reset_index(drop=True)
     df_participante = df_participante.reset_index(drop=True)
+    
     df_participante["E"] = np.where(df_participante["B"] > df_participante["C"], "L",
                             np.where(df_participante["B"] < df_participante["C"], "V", "E"))
+    
+    df_participante["F"] = None
+    
+    n = len(df_resultado)
+    
     condiciones = [
-        (df_resultado["B"] == df_participante["B"]) & (df_resultado["C"] == df_participante["C"]),
-        (df_resultado["E"] == df_participante["E"])
+        (df_resultado["B"].values == df_participante["B"].values[:n]) & 
+        (df_resultado["C"].values == df_participante["C"].values[:n]),
+        (df_resultado["E"].values == df_participante["E"].values[:n])
     ]
     valores = [3, 1]
-    df_participante["F"] = np.select(condiciones, valores, default=None)
+    
+    df_participante.loc[:n-1, "F"] = np.select(condiciones, valores, default=None)
     return df_participante
 
 def TABLA_PUNTAJES(participantes):
