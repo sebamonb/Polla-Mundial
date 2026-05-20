@@ -42,7 +42,7 @@ def PREDICCIONES(participantes, total):
 
 # ---- CÓDIGO PRINCIPAL ----
 
-df_resultado = pd.read_excel("Resultados.xlsx", header=None, names=["A","B","C","D","E","F","G","H"])
+df_resultado = pd.read_excel("resultados.xlsx", header=None, names=["A","B","C","D","E","F","G","H"])
 p_jugados = int(df_resultado["H"].count())
 df_resultado["E"] = np.where(df_resultado["B"] > df_resultado["C"], "L",
                     np.where(df_resultado["B"] < df_resultado["C"], "V", "E"))
