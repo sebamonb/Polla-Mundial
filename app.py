@@ -66,7 +66,9 @@ for archivo in archivos:
     participantes.append([nombre, df_participante])
 
 total_partidos = len(participantes[0][1])
+df_tabla = TABLA_PUNTAJES(participantes)
 tablas_fechas = PREDICCIONES(participantes, total_partidos)
+
 
 
 # ---- STREAMLIT ----
