@@ -71,7 +71,7 @@ for archivo in archivos:
     participantes.append([nombre, df_participante])
 
 df_tabla = TABLA_PUNTAJES(participantes)
-tablas_fechas = PREDICCIONES(participantes, 78)
+tablas_fechas = PREDICCIONES(participantes, 78, df_resultado)
 
 # ---- STREAMLIT ----
 
