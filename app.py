@@ -151,6 +151,14 @@ with pestaña2:
     url_l = bandera_url(equipo_local)
     url_v = bandera_url(equipo_visita)
 
+   # Obtener resultado real si el partido fue jugado
+    if st.session_state.fecha <= p_jugados:
+        gol_l = df_resultado.iloc[st.session_state.fecha - 1]["B"]
+        gol_v = df_resultado.iloc[st.session_state.fecha - 1]["C"]
+        marcador = f"## {int(gol_l)} - {int(gol_v)}"
+    else:
+        marcador = "## vs"
+
     c1, c2, c3, c4, c5 = st.columns([1, 3, 1, 3, 1])
     with c1:
         if url_l:
@@ -158,7 +166,7 @@ with pestaña2:
     with c2:
         st.markdown(f"## {equipo_local}")
     with c3:
-        st.markdown("## vs")
+        st.markdown(marcador)
     with c4:
         st.markdown(f"## {equipo_visita}")
     with c5:
