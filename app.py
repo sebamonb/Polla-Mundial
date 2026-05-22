@@ -155,20 +155,20 @@ with pestaña2:
     if st.session_state.fecha <= p_jugados:
         gol_l = df_resultado.iloc[st.session_state.fecha - 1]["B"]
         gol_v = df_resultado.iloc[st.session_state.fecha - 1]["C"]
-        marcador = f"## {int(gol_l)} - {int(gol_v)}"
+        marcador_texto = f"{int(gol_l)} - {int(gol_v)}"
     else:
-        marcador = "vs"
+        marcador_texto = "vs"
 
-    c1, c2, c3, c4, c5 = st.columns([1, 3, 1, 3, 1])
+c1, c2, c3, c4, c5 = st.columns([1, 3, 1, 3, 1])
     with c1:
         if url_l:
             st.image(url_l, width=60)
     with c2:
-        st.markdown(f"## {equipo_local}")
+        st.markdown(f"<h2 style='text-align:center'>{equipo_local}</h2>", unsafe_allow_html=True)
     with c3:
-        st.markdown(marcador) 
+        st.markdown(f"<h2 style='text-align:center'>{marcador_texto}</h2>", unsafe_allow_html=True)
     with c4:
-        st.markdown(f"## {equipo_visita}")
+        st.markdown(f"<h2 style='text-align:center'>{equipo_visita}</h2>", unsafe_allow_html=True)
     with c5:
         if url_v:
             st.image(url_v, width=60)
