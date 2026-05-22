@@ -138,16 +138,22 @@ with pestaña1:
 
     filas = ""
     for i, row in df_tabla.reset_index(drop=True).iterrows():
-        borde = "border-left: 4px solid #00C853;" if i < 3 else ""
-        filas += f"<tr style='{borde}'><td>{row['Nombre']}</td><td>{int(row['Puntos'])}</td><td>{int(row['Exactos'])}</td></tr>"
+        if i < 3:
+            estilo = "border-left: 4px solid #00C853; background-color: rgba(0, 200, 83, 0.08);"
+        else:
+            estilo = ""
+        filas += f"<tr style='{estilo}'><td>{row['Nombre']}</td><td>{int(row['Puntos'])}</td><td>{int(row['Exactos'])}</td></tr>"
 
     html = f"""
     <table style="width:100%; text-align:center; border-collapse:collapse;">
         <thead><tr>
-            <th>Nombre</th><th>Puntos</th><th>Exactos</th>
+            <th style="padding:8px;">Nombre</th>
+            <th style="padding:8px;">Puntos</th>
+            <th style="padding:8px;">Exactos</th>
         </tr></thead>
         <tbody>{filas}</tbody>
     </table>
+    <br>
     """
     st.markdown(html, unsafe_allow_html=True)
     
