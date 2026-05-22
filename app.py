@@ -135,7 +135,22 @@ pestaña1, pestaña2 = st.tabs(["Tabla General", "Predicciones por Fecha"])
 
 with pestaña1:
     st.subheader("Clasificación General")
-    st.dataframe(df_tabla, use_container_width=True, hide_index=True)
+
+    filas = ""
+    for i, row in df_tabla.reset_index(drop=True).iterrows():
+        borde = "border-left: 4px solid #00C853;" if i < 3 else ""
+        filas += f"<tr style='{borde}'><td>{row['Nombre']}</td><td>{int(row['Puntos'])}</td><td>{int(row['Exactos'])}</td></tr>"
+
+    html = f"""
+    <table style="width:100%; text-align:center; border-collapse:collapse;">
+        <thead><tr>
+            <th>Nombre</th><th>Puntos</th><th>Exactos</th>
+        </tr></thead>
+        <tbody>{filas}</tbody>
+    </table>
+    """
+    st.markdown(html, unsafe_allow_html=True)
+    
 
 with pestaña2:
     st.subheader("Predicciones por Fecha")
