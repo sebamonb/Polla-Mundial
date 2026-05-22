@@ -120,6 +120,15 @@ tablas_fechas = PREDICCIONES(participantes, 78, df_resultado)
 
 # ---- STREAMLIT ----
 
+
+st.markdown("""
+    <style>
+    .stProgress { display: none; }
+    div[data-testid="stStatusWidget"] { display: none; }
+    </style>
+""", unsafe_allow_html=True)
+
+
 st.title("🏆 Polla Mundial")
 
 pestaña1, pestaña2 = st.tabs(["Tabla General", "Predicciones por Fecha"])
