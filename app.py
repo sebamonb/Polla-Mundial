@@ -205,11 +205,26 @@ with pestaña2:
 
     st.divider()
 
-    # Tabla de predicciones de todos los participantes
-    st.dataframe(
-        df_fecha_actual[["Nombre", "B", "C", "F"]].rename(
-            columns={"B": equipo_local, "C": equipo_visita, "F": "Puntos"}
-        ),
-        use_container_width=True,
-        hide_index=True
-    )
+# Tabla de predicciones de todos los participantes
+    df_mostrar = df_fecha_actual[["Nombre", "B", "C", "F"]].rename(
+        columns={"B": equipo_local, "C": equipo_visita, "F": "Puntos"}
+    ).reset_index(drop=True)
+
+    filas_pred = ""
+    for _, row in df_mostrar.iterrows():
+        puntos = int(row["Puntos"]) if pd.notna(row["Puntos"]) else "-"
+        filas_pred += f"<tr><td>{row['Nombre']}</td><td>{row[equipo_local]}</td><td>{row[equipo_visita]}</td><td>{puntos}</td></tr>"
+
+    html_pred = f"""
+    <table style="width:100%; text-align:center; border-collapse:collapse;">
+        <thead><tr>
+            <th style="padding:8px;">Nombre</th>
+            <th style="padding:8px;">{equipo_local}</th>
+            <th style="padding:8px;">{equipo_visita}</th>
+            <th style="padding:8px;">Puntos</th>
+        </tr></thead>
+        <tbody>{filas_pred}</tbody>
+    </table>
+    <br>
+    """
+    st.markdown(html_pred, unsafe_allow_html=True)
