@@ -159,7 +159,7 @@ with pestaña2:
     else:
         marcador_texto = "vs"
 
-c1, c2, c3, c4, c5 = st.columns([1, 3, 1, 3, 1])
+    c1, c2, c3, c4, c5 = st.columns([1, 3, 1, 3, 1])
     with c1:
         if url_l:
             st.image(url_l, width=60)
