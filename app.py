@@ -164,11 +164,11 @@ with pestaña2:
         if url_l:
             st.image(url_l, width=60)
     with c2:
-        st.markdown(f"##{equipo_local}")
+        st.markdown(f"{equipo_local}")
     with c3:
         st.markdown(marcador) 
     with c4:
-        st.markdown(f"##{equipo_visita}")
+        st.markdown(f"{equipo_visita}")
     with c5:
         if url_v:
             st.image(url_v, width=60)
