@@ -17,10 +17,12 @@ data = r.json()
 print("Claves principales:")
 print(list(data.keys()))
 
-print("\nCantidad de eventos:")
+print()
+print("Cantidad de eventos:")
 print(len(data.get("events", [])))
 
-print("\nPrimeros partidos encontrados:")
+print()
+print("Primeros partidos encontrados:")
 print("-" * 60)
 
 for event in data.get("events", [])[:10]:
@@ -30,7 +32,6 @@ for event in data.get("events", [])[:10]:
 
     if competitions:
         comp = competitions[0]
-
         competitors = comp.get("competitors", [])
 
         if len(competitors) >= 2:
@@ -49,4 +50,4 @@ for event in data.get("events", [])[:10]:
 
 except Exception as e:
 print("ERROR:")
-print(e)
+print(str(e))
