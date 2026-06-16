@@ -102,6 +102,8 @@ def obtener_partidos_api():
     resp = requests.get(url, headers=HEADERS, params=params, timeout=30)
     resp.raise_for_status()
     data = resp.json()
+    print("Respuesta API:")
+    print(data)
 
     if data.get("errors"):
         print("API devolvió errores:", data["errors"], file=sys.stderr)
