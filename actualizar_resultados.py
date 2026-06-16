@@ -1,79 +1,33 @@
 import requests
-import xlrd
-from xlutils.copy import copy
+from openpyxl import load_workbook
 
-# =========================
-# MAPA ESPAÑOL → ESPN
-# =========================
+URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard"
+
 mapa = {
+    "Francia": "France",
+    "Brasil": "Brazil",
+    "Alemania": "Germany",
+    "Espana": "Spain",
     "Mexico": "Mexico",
+    "Canada": "Canada",
     "Sudafrica": "South Africa",
     "Corea del Sur": "South Korea",
     "Republica Checa": "Czechia",
-    "Canada": "Canada",
     "Bosnia y Herzegovina": "Bosnia and Herzegovina",
     "Estados Unidos": "United States",
     "Paraguay": "Paraguay",
     "Qatar": "Qatar",
-    "Suiza": "Switzerland",
-    "Brasil": "Brazil",
-    "Marruecos": "Morocco",
-    "Haiti": "Haiti",
-    "Escocia": "Scotland",
-    "Australia": "Australia",
-    "Turquia": "Turkey",
-    "Alemania": "Germany",
-    "Curacao": "Curacao",
-    "Paises Bajos": "Netherlands",
-    "Japon": "Japan",
-    "Costa de Marfil": "Ivory Coast",
-    "Suecia": "Sweden",
-    "Tunisia": "Tunisia",
-    "Espana": "Spain",
-    "Cabo Verde": "Cape Verde",
-    "Belgica": "Belgium",
-    "Egipto": "Egypt",
-    "Arabia Saudita": "Saudi Arabia",
-    "Uruguay": "Uruguay",
-    "Iran": "Iran",
-    "Nueva Zelanda": "New Zealand",
-    "Francia": "France",
-    "Iraq": "Iraq",
-    "Noruega": "Norway",
-    "Argentina": "Argentina",
-    "Argelia": "Algeria",
-    "Austria": "Austria",
-    "Jordania": "Jordan",
-    "Portugal": "Portugal",
-    "RD Congo": "DR Congo",
-    "Inglaterra": "England",
-    "Ghana": "Ghana",
-    "Panama": "Panama",
-    "Uzbekistan": "Uzbekistan",
-    "Colombia": "Colombia"
+    "Suiza": "Switzerland"
 }
 
-# =========================
-# ESPN API
-# =========================
-URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard"
-r = requests.get(URL, timeout=30)
+r = requests.get(URL)
 data = r.json()
 
-events = data.get("events", [])
+events = data["events"]
 
-# =========================
-# EXCEL
-# =========================
-rb = xlrd.open_workbook("resultados.xls", formatting_info=True)
-wb = copy(rb)
-ws = wb.get_sheet(0)
+wb = load_workbook("resultados.xlsx")
+ws = wb.active
 
-sheet = rb.sheet_by_index(0)
-
-# =========================
-# RECORRER PARTIDOS
-# =========================
 for event in events:
 
     comp = event["competitions"][0]
@@ -82,54 +36,39 @@ for event in events:
 
     competitors = comp["competitors"]
 
-    home_team = None
-    away_team = None
-    home_score = None
-    away_score = None
+    home = away = home_score = away_score = None
 
     for c in competitors:
-        team = c["team"]["displayName"]
+        name = c["team"]["displayName"]
         score = c["score"]
 
         if c["homeAway"] == "home":
-            home_team = team
+            home = name
             home_score = score
         else:
-            away_team = team
+            away = name
             away_score = score
 
-    # =========================
-    # BUSCAR EN EXCEL
-    # =========================
-    for i in range(sheet.nrows):
+    for row in ws.iter_rows(min_row=1):
 
-        excel_home = sheet.cell_value(i, 0)
-        excel_away = sheet.cell_value(i, 3)
-        flag = sheet.cell_value(i, 7)
+        excel_home = row[0].value
+        excel_away = row[3].value
+        flag = row[7].value
 
-        if str(flag).strip() == "1":
+        if flag == 1:
             continue
 
-        # traducir español → inglés
         excel_home_en = mapa.get(excel_home, excel_home)
         excel_away_en = mapa.get(excel_away, excel_away)
 
-        # match
-        if (excel_home_en == home_team and excel_away_en == away_team):
+        if excel_home_en == home and excel_away_en == away:
+            row[1].value = home_score
+            row[2].value = away_score
+            row[7].value = 1
 
-            ws.write(i, 1, home_score)
-            ws.write(i, 2, away_score)
-            ws.write(i, 7, 1)
+        elif excel_home_en == away and excel_away_en == home:
+            row[1].value = away_score
+            row[2].value = home_score
+            row[7].value = 1
 
-        elif (excel_home_en == away_team and excel_away_en == home_team):
-
-            ws.write(i, 1, away_score)
-            ws.write(i, 2, home_score)
-            ws.write(i, 7, 1)
-
-# =========================
-# GUARDAR
-# =========================
-wb.save("resultados.xls")
-
-print("Excel actualizado correctamente")
+wb.save("resultados.xlsx")
