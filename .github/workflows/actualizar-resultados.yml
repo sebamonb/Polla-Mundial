@@ -1,4 +1,6 @@
 name: Actualizar resultados Mundial
+- name: Install dependencies
+  run: pip install requests xlrd xlutils
 
 on:
   schedule:
