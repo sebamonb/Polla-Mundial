@@ -19,7 +19,7 @@ jobs:
           python-version: "3.10"
 
       - name: Install dependencies
-        run: pip install requests xlrd xlutils
+        run: pip install requests openpyxl
 
       - name: Run script
         run: python actualizar_resultados.py
