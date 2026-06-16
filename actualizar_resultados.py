@@ -67,7 +67,7 @@ events = data.get("events", [])
 # EXCEL (OPENPYXL)
 # =========================
 
-ARCHIVO = "resultados.xls"
+ARCHIVO = "resultados.xlsx"
 
 wb = load_workbook(ARCHIVO)
 ws = wb.active
