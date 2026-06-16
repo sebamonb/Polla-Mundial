@@ -1,46 +1,24 @@
 import requests
-
-print("ESTE ES EL SCRIPT NUEVO ESPN")
+import json
 
 URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard"
 
 r = requests.get(URL, timeout=30)
 
-print("=" * 60)
-print("STATUS:", r.status_code)
-print("=" * 60)
+print("STATUS HTTP:", r.status_code)
 
 data = r.json()
 
-print("Claves principales:")
-print(list(data.keys()))
+print("Cantidad de eventos:", len(data.get("events", [])))
 
-print()
-print("Cantidad de eventos:")
-print(len(data.get("events", [])))
+if len(data.get("events", [])) == 0:
+    print("No se encontraron eventos")
+    quit()
 
-print()
-print("Primeros partidos encontrados:")
-print("-" * 60)
+evento = data["events"][0]
 
-for event in data.get("events", [])[:10]:
-    print("Nombre:", event.get("name"))
+print("\n" + "=" * 80)
+print("PRIMER EVENTO COMPLETO")
+print("=" * 80)
 
-    competitions = event.get("competitions", [])
-
-    if competitions:
-        comp = competitions[0]
-        competitors = comp.get("competitors", [])
-
-        if len(competitors) >= 2:
-            home = competitors[0]
-            away = competitors[1]
-
-            print(
-                f"{home['team']['displayName']} "
-                f"{home.get('score', '?')} - "
-                f"{away.get('score', '?')} "
-                f"{away['team']['displayName']}"
-            )
-
-    print("-" * 60)
+print(json.dumps(evento, indent=2, ensure_ascii=False))
