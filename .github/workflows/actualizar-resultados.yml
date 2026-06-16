@@ -21,5 +21,11 @@ jobs:
       - name: Install dependencies
         run: pip install requests openpyxl
 
+      - name: Show debug (script real)
+        run: |
+          pwd
+          ls -R
+          sed -n '1,200p' actualizar_resultados.py
+
       - name: Run script
         run: python actualizar_resultados.py
