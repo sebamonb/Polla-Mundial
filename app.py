@@ -161,7 +161,7 @@ with pestaña1:
 with pestaña2:
     st.subheader("Predicciones por Fecha")
     if "fecha" not in st.session_state:
-        st.session_state.fecha = 1
+        st.session_state.fecha = p_jugados if p_jugados > 0 else 1
 
     col1, col2, col3 = st.columns([1, 2, 1])
     with col1:
