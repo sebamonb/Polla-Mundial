@@ -204,8 +204,7 @@ with pestaña2:
             st.image(url_v, width=60)
 
     st.divider()
-
-# Tabla de predicciones de todos los participantes
+    # Tabla de predicciones de todos los participantes
     df_mostrar = df_fecha_actual[["Nombre", "B", "C", "F"]].rename(
         columns={"B": equipo_local, "C": equipo_visita, "F": "Puntos"}
     ).reset_index(drop=True)
@@ -213,7 +212,18 @@ with pestaña2:
     filas_pred = ""
     for _, row in df_mostrar.iterrows():
         puntos = int(row["Puntos"]) if pd.notna(row["Puntos"]) else "-"
-        filas_pred += f"<tr><td>{row['Nombre']}</td><td>{row[equipo_local]}</td><td>{row[equipo_visita]}</td><td>{puntos}</td></tr>"
+
+        # Definir color de fondo solo para la celda de Puntos, solo si el partido fue jugado
+        if puntos == 3:
+            estilo_puntos = "background-color: rgba(0, 200, 83, 0.25);"
+        elif puntos == 1:
+            estilo_puntos = "background-color: rgba(255, 193, 7, 0.25);"
+        elif puntos == 0:
+            estilo_puntos = "background-color: rgba(244, 67, 54, 0.25);"
+        else:
+            estilo_puntos = ""  # partido no jugado, sin color
+
+        filas_pred += f"<tr><td>{row['Nombre']}</td><td>{row[equipo_local]}</td><td>{row[equipo_visita]}</td><td style='{estilo_puntos}'>{puntos}</td></tr>"
 
     html_pred = f"""
     <table style="width:100%; text-align:center; border-collapse:collapse;">
@@ -228,3 +238,4 @@ with pestaña2:
     <br>
     """
     st.markdown(html_pred, unsafe_allow_html=True)
+
