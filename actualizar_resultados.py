@@ -66,6 +66,11 @@ print(f"Eventos recibidos: {len(events)}")
 for e in events:
     comp = e["competitions"][0]
     print(f"  {e['name']} - completed: {comp['status']['type']['completed']} - status: {comp['status']['type']['description']}")
+print("=== NOMBRES EXACTOS DE LA API ===")
+for e in events:
+    comp = e["competitions"][0]
+    for c in comp["competitors"]:
+        print(repr(c["team"]["displayName"]))
 # =========================
 # EXCEL (OPENPYXL)
 # =========================
