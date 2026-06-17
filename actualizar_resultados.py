@@ -62,7 +62,10 @@ r = requests.get(URL, timeout=30)
 data = r.json()
 
 events = data.get("events", [])
-
+print(f"Eventos recibidos: {len(events)}")
+for e in events:
+    comp = e["competitions"][0]
+    print(f"  {e['name']} - completed: {comp['status']['type']['completed']} - status: {comp['status']['type']['description']}")
 # =========================
 # EXCEL (OPENPYXL)
 # =========================
