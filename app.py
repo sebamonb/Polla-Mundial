@@ -135,8 +135,9 @@ pestaña1, pestaña2 = st.tabs(["Tabla General", "Predicciones por Fecha"])
 ########################################################################################################
 with pestaña1:
     st.subheader("Clasificación General")
-    st.write(f"Participantes cargados: {len(participantes)}")
-    st.write(f"Filas en df_tabla: {len(df_tabla)}")
+    st.write(f"Participantes : {len(participantes)}")
+    st.write(f"Pozo: $880.000")
+    
 
     MEDALLAS = {1: "🥇", 2: "🥈", 3: "🥉"}
 
