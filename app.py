@@ -135,6 +135,8 @@ pestaña1, pestaña2 = st.tabs(["Tabla General", "Predicciones por Fecha"])
 
 with pestaña1:
     st.subheader("Clasificación General")
+    st.write(f"Participantes cargados: {len(participantes)}")
+    st.write(f"Filas en df_tabla: {len(df_tabla)}")
 
     filas = ""
     for i, row in df_tabla.reset_index(drop=True).iterrows():
