@@ -166,11 +166,12 @@ with pestaña1:
     <br>
     """
     st.markdown(html, unsafe_allow_html=True)
-    col_izq, col_der = st.columns([1, 1])
+col_izq, col_der1, col_der2 = st.columns([2, 1, 1])
 with col_izq:
     st.image("https://www.clarin.com/img/2015/06/17/HkGsvWbR7l_1256x620.jpg", width=300)
-with col_der:
+with col_der1:
     st.image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjkInHtjUDZSpVg4cHAYd7D-_RZ_CYB6njoA&s", width=150)
+with col_der2:
     st.image("https://pbs.twimg.com/profile_images/3434305374/cf5a6a6a0dcca079474f30b8a3b9c13b_400x400.gif", width=150)
     ########################################################################################################################3
 
