@@ -138,6 +138,8 @@ with pestaña1:
     st.write(f"Participantes cargados: {len(participantes)}")
     st.write(f"Filas en df_tabla: {len(df_tabla)}")
 
+    MEDALLAS = {1: "🥇", 2: "🥈", 3: "🥉"}
+
     filas = ""
     for i, row in df_tabla.reset_index(drop=True).iterrows():
         if i < 3:
@@ -145,16 +147,12 @@ with pestaña1:
         else:
             estilo = ""
         posicion = i + 1
-        if posicion == 1:
-            medalla = "🥇"
-        elif posicion == 2:
-            medalla = "🥈"
-        elif posicion == 3:
-            medalla = "🥉"
-        else:
-            medalla = str(posicion)
-        filas += f"<tr style='{estilo}'><td>{medalla}</td><td>{row['Nombre']}</td><td>{int(row['Puntos'])}</td><td>{int(row['Exactos'])}</td></tr>"
-
+        medalla = MEDALLAS.get(posicion, str(posicion))
+        fila = "<tr style='{e}'><td>{m}</td><td>{n}</td><td>{p}</td><td>{x}</td></tr>".format(
+            e=estilo, m=medalla, n=row['Nombre'], p=int(row['Puntos']), x=int(row['Exactos'])
+        )
+        filas += fila
+        
     html = f"""
     <table style="width:100%; text-align:center; border-collapse:collapse;">
         <thead><tr>
