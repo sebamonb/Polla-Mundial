@@ -152,7 +152,6 @@ with pestaña1:
             e=estilo, m=medalla, n=row['Nombre'], p=int(row['Puntos']), x=int(row['Exactos'])
         )
         filas += fila
-        st.write(filas[:500] if filas else "filas está vacío")
     html = f"""
     <table style="width:100%; text-align:center; border-collapse:collapse;">
         <thead><tr>
