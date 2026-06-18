@@ -151,7 +151,7 @@ with pestaña1:
         fila = "<tr style='{e}'><td>{m}</td><td>{n}</td><td>{p}</td><td>{x}</td></tr>".format(
             e=estilo, m=medalla, n=row['Nombre'], p=int(row['Puntos']), x=int(row['Exactos'])
         )
-        filas += fila
+        st.write(filas[:500] if filas else "filas está vacío")
         st.code(html)
     html = f"""
     <table style="width:100%; text-align:center; border-collapse:collapse;">
