@@ -11,7 +11,7 @@ mapa = {
     "Corea del Sur": "South Korea",
     "Republica Checa": "Czechia",
     "Canada": "Canada",
-    "Bosnia y Herzegovina": "Bosnia and Herzegovina",
+    "Bosnia y Herzegovina": "Bosnia-Herzegovina",
     "Estados Unidos": "United States",
     "Paraguay": "Paraguay",
     "Qatar": "Qatar",
