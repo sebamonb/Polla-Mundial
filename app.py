@@ -127,7 +127,7 @@ st.markdown("""
     div[data-testid="stStatusWidget"] { display: none; }
     </style>
 """, unsafe_allow_html=True)
-
+st.code(html)
 
 st.title("🏆 Polla Mundial")
 
