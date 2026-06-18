@@ -127,12 +127,12 @@ st.markdown("""
     div[data-testid="stStatusWidget"] { display: none; }
     </style>
 """, unsafe_allow_html=True)
-st.code(html)
+
 
 st.title("🏆 Polla Mundial")
 
 pestaña1, pestaña2 = st.tabs(["Tabla General", "Predicciones por Fecha"])
-
+########################################################################################################
 with pestaña1:
     st.subheader("Clasificación General")
     st.write(f"Participantes cargados: {len(participantes)}")
@@ -152,7 +152,7 @@ with pestaña1:
             e=estilo, m=medalla, n=row['Nombre'], p=int(row['Puntos']), x=int(row['Exactos'])
         )
         filas += fila
-        
+        st.code(html)
     html = f"""
     <table style="width:100%; text-align:center; border-collapse:collapse;">
         <thead><tr>
