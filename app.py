@@ -153,7 +153,6 @@ with pestaña1:
         )
         filas += fila
         st.write(filas[:500] if filas else "filas está vacío")
-        st.code(html)
     html = f"""
     <table style="width:100%; text-align:center; border-collapse:collapse;">
         <thead><tr>
