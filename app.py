@@ -142,11 +142,21 @@ with pestaña1:
             estilo = "border-left: 4px solid #00C853; background-color: rgba(0, 200, 83, 0.08);"
         else:
             estilo = ""
-        filas += f"<tr style='{estilo}'><td>{row['Nombre']}</td><td>{int(row['Puntos'])}</td><td>{int(row['Exactos'])}</td></tr>"
+        posicion = i + 1
+        if posicion == 1:
+            medalla = "🥇"
+        elif posicion == 2:
+            medalla = "🥈"
+        elif posicion == 3:
+            medalla = "🥉"
+        else:
+            medalla = str(posicion)
+        filas += f"<tr style='{estilo}'><td>{medalla}</td><td>{row['Nombre']}</td><td>{int(row['Puntos'])}</td><td>{int(row['Exactos'])}</td></tr>"
 
     html = f"""
     <table style="width:100%; text-align:center; border-collapse:collapse;">
         <thead><tr>
+            <th style="padding:8px;">#</th>
             <th style="padding:8px;">Nombre</th>
             <th style="padding:8px;">Puntos</th>
             <th style="padding:8px;">Exactos</th>
@@ -155,8 +165,7 @@ with pestaña1:
     </table>
     <br>
     """
-    st.markdown(html, unsafe_allow_html=True)
-    
+    ########################################################################################################################3
 
 with pestaña2:
     st.subheader("Predicciones por Fecha")
