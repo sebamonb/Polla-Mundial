@@ -3,6 +3,7 @@ import os
 import pandas as pd
 import numpy as np
 import streamlit as st
+import streamlit.components.v1 as components
 
 # ---- BANDERAS ----
 
@@ -72,7 +73,6 @@ def TABLA_PUNTAJES(participantes):
 def PREDICCIONES(participantes, total, df_resultado):
     tablas_fechas = []
     for i in range(total):
-        # Equipo local y visitante vienen de df_resultado si la fila existe
         if i < len(df_resultado):
             equipo_local   = df_resultado.iloc[i]["A"]
             equipo_visita  = df_resultado.iloc[i]["D"]
@@ -109,7 +109,7 @@ df_resultado["E"] = np.where(df_resultado["B"] > df_resultado["C"], "L",
 archivos = glob.glob("carpeta/*.xlsx")
 participantes = []
 for archivo in archivos:
-    nombre         = os.path.splitext(os.path.basename(archivo))[0]
+    nombre          = os.path.splitext(os.path.basename(archivo))[0]
     df_participante = pd.read_excel(archivo, header=None,
                                     names=["A","B","C","D","E","F","G","H"])
     df_participante = CALCULAR_PUNTOS(df_resultado, df_participante)
@@ -120,7 +120,6 @@ tablas_fechas = PREDICCIONES(participantes, 78, df_resultado)
 
 # ---- STREAMLIT ----
 
-
 st.markdown("""
     <style>
     .stProgress { display: none; }
@@ -128,16 +127,15 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-
 st.title("🏆 Polla Mundial")
 
 pestaña1, pestaña2, pestaña3 = st.tabs(["Tabla General", "Predicciones por Fecha", "VAR"])
+
 ########################################################################################################
 with pestaña1:
     st.subheader("Clasificación General")
     st.write(f"Participantes : {len(participantes)}")
     st.write(f"Pozo: $880.000")
-    
 
     MEDALLAS = {1: "🥇", 2: "🥈", 3: "🥉"}
 
@@ -166,6 +164,7 @@ with pestaña1:
     <br>
     """
     st.markdown(html, unsafe_allow_html=True)
+
 col_izq, col_der1, col_der2 = st.columns([2, 1, 1])
 with col_izq:
     st.image("https://www.clarin.com/img/2015/06/17/HkGsvWbR7l_1256x620.jpg", width=300)
@@ -173,8 +172,8 @@ with col_der1:
     st.image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjkInHtjUDZSpVg4cHAYd7D-_RZ_CYB6njoA&s", width=150)
 with col_der2:
     st.image("https://pbs.twimg.com/profile_images/3434305374/cf5a6a6a0dcca079474f30b8a3b9c13b_400x400.gif", width=150)
-    ########################################################################################################################3
 
+########################################################################################################
 with pestaña2:
     st.subheader("Predicciones por Fecha")
     if "fecha" not in st.session_state:
@@ -192,13 +191,11 @@ with pestaña2:
 
     df_fecha_actual = tablas_fechas[st.session_state.fecha - 1]
 
-    # Encabezado del partido con banderas
     equipo_local  = df_fecha_actual.iloc[0]["A"]
     equipo_visita = df_fecha_actual.iloc[0]["D"]
     url_l = bandera_url(equipo_local)
     url_v = bandera_url(equipo_visita)
 
-   # Obtener resultado real si el partido fue jugado
     if st.session_state.fecha <= p_jugados:
         gol_l = df_resultado.iloc[st.session_state.fecha - 1]["B"]
         gol_v = df_resultado.iloc[st.session_state.fecha - 1]["C"]
@@ -221,7 +218,7 @@ with pestaña2:
             st.image(url_v, width=60)
 
     st.divider()
-    # Tabla de predicciones de todos los participantes
+
     df_mostrar = df_fecha_actual[["Nombre", "B", "C", "F"]].rename(
         columns={"B": equipo_local, "C": equipo_visita, "F": "Puntos"}
     ).reset_index(drop=True)
@@ -230,7 +227,6 @@ with pestaña2:
     for _, row in df_mostrar.iterrows():
         puntos = int(row["Puntos"]) if pd.notna(row["Puntos"]) else "-"
 
-        # Definir color de fondo solo para la celda de Puntos, solo si el partido fue jugado
         if puntos == 3:
             estilo_puntos = "background-color: rgba(0, 200, 83, 0.25);"
         elif puntos == 1:
@@ -238,7 +234,7 @@ with pestaña2:
         elif puntos == 0:
             estilo_puntos = "background-color: rgba(244, 67, 54, 0.25);"
         else:
-            estilo_puntos = ""  # partido no jugado, sin color
+            estilo_puntos = ""
 
         filas_pred += f"<tr><td>{row['Nombre']}</td><td>{row[equipo_local]}</td><td>{row[equipo_visita]}</td><td style='{estilo_puntos}'>{puntos}</td></tr>"
 
@@ -257,9 +253,71 @@ with pestaña2:
     st.markdown(html_pred, unsafe_allow_html=True)
 
 ########################################################################################################
-import streamlit.components.v1 as components
+with pestaña3:
+    st.subheader("🔍 VAR - Verificación de Predicciones")
+
+    nombres_disponibles = [nombre for nombre, _ in participantes]
+    seleccionado = st.selectbox("Selecciona un participante:", nombres_disponibles)
+
+    df_seleccionado = next(df for nombre, df in participantes if nombre == seleccionado)
+
+    filas_var = ""
+    total_puntos_var = 0
+
+    for i in range(78):
+        if i < len(df_resultado):
+            equipo_local_v  = df_resultado.iloc[i]["A"]
+            equipo_visita_v = df_resultado.iloc[i]["D"]
+        else:
+            equipo_local_v  = "-"
+            equipo_visita_v = "-"
+
+        if i < len(df_seleccionado):
+            pred_l   = df_seleccionado.iloc[i]["B"]
+            pred_v   = df_seleccionado.iloc[i]["C"]
+            puntos_v = df_seleccionado.iloc[i]["F"]
+        else:
+            pred_l   = "-"
+            pred_v   = "-"
+            puntos_v = None
+
+        if i < p_jugados:
+            res_l        = int(df_resultado.iloc[i]["B"])
+            res_v        = int(df_resultado.iloc[i]["C"])
+            puntos_texto = str(int(puntos_v)) if pd.notna(puntos_v) else "-"
+            if pd.notna(puntos_v):
+                total_puntos_var += int(puntos_v)
+        else:
+            res_l        = "-"
+            res_v        = "-"
+            puntos_texto = "-"
+
+        if puntos_texto == "3":
+            estilo_fila = "background-color: rgba(0, 200, 83, 0.20);"
+        elif puntos_texto == "1":
+            estilo_fila = "background-color: rgba(255, 193, 7, 0.20);"
+        elif puntos_texto == "0":
+            estilo_fila = "background-color: rgba(244, 67, 54, 0.20);"
+        else:
+            estilo_fila = ""
+
+        pred_l_txt = str(int(pred_l)) if pd.notna(pred_l) and pred_l != "-" else "-"
+        pred_v_txt = str(int(pred_v)) if pd.notna(pred_v) and pred_v != "-" else "-"
+
+        filas_var += (
+            f"<tr style='{estilo_fila}'>"
+            f"<td style='padding:6px;'>{equipo_local_v}</td>"
+            f"<td style='padding:6px;'>{equipo_visita_v}</td>"
+            f"<td style='padding:6px;'>{pred_l_txt}</td>"
+            f"<td style='padding:6px;'>{pred_v_txt}</td>"
+            f"<td style='padding:6px;'>{res_l}</td>"
+            f"<td style='padding:6px;'>{res_v}</td>"
+            f"<td style='padding:6px; font-weight:bold;'>{puntos_texto}</td>"
+            f"</tr>"
+        )
 
     html_var = (
+        "<div style='background-color:#0e1117; padding:10px;'>"
         "<table style='width:100%; text-align:center; border-collapse:collapse; font-family:sans-serif; color:white;'>"
         "<thead>"
         "<tr style='background-color: rgba(128,128,128,0.15);'>"
@@ -283,7 +341,7 @@ import streamlit.components.v1 as components
         "</thead>"
         f"<tbody>{filas_var}</tbody>"
         "</table>"
+        "</div>"
     )
 
     components.html(html_var, height=2200, scrolling=True)
-
