@@ -324,33 +324,32 @@ with pestaña3:
         </tr>
         """
 
-    html_var = f"""
-    <table style="width:100%; text-align:center; border-collapse:collapse;">
-        <thead>
-            <tr style="background-color: rgba(128,128,128,0.15);">
-                <th colspan="7" style="padding:10px; font-size:1.1em;">
-                    Total puntos: {total_puntos_var}
-                </th>
-            </tr>
-            <tr>
-                <th colspan="2" style="padding:8px; border-bottom: 2px solid gray;">Partido</th>
-                <th colspan="2" style="padding:8px; border-bottom: 2px solid gray;">Predicción</th>
-                <th colspan="2" style="padding:8px; border-bottom: 2px solid gray;">Resultado</th>
-                <th style="padding:8px; border-bottom: 2px solid gray;">Puntos</th>
-            </tr>
-            <tr style="font-size:0.85em; color: gray;">
-                <th style="padding:4px;">Local</th>
-                <th style="padding:4px;">Visita</th>
-                <th style="padding:4px;">Local</th>
-                <th style="padding:4px;">Visita</th>
-                <th style="padding:4px;">Local</th>
-                <th style="padding:4px;">Visita</th>
-                <th style="padding:4px;"></th>
-            </tr>
-        </thead>
-        <tbody>{filas_var}</tbody>
-    </table>
-    <br>
-    """
+    # Reemplaza desde "html_var = f"""  hasta  "st.markdown(html_var...)"  por esto:
+
+    html_var = (
+        "<table style='width:100%; text-align:center; border-collapse:collapse;'>"
+        "<thead>"
+        "<tr style='background-color: rgba(128,128,128,0.15);'>"
+        f"<th colspan='7' style='padding:10px; font-size:1.1em;'>Total puntos: {total_puntos_var}</th>"
+        "</tr>"
+        "<tr>"
+        "<th colspan='2' style='padding:8px; border-bottom: 2px solid gray;'>Partido</th>"
+        "<th colspan='2' style='padding:8px; border-bottom: 2px solid gray;'>Predicción</th>"
+        "<th colspan='2' style='padding:8px; border-bottom: 2px solid gray;'>Resultado</th>"
+        "<th style='padding:8px; border-bottom: 2px solid gray;'>Puntos</th>"
+        "</tr>"
+        "<tr style='font-size:0.85em; color: gray;'>"
+        "<th style='padding:4px;'>Local</th>"
+        "<th style='padding:4px;'>Visita</th>"
+        "<th style='padding:4px;'>Local</th>"
+        "<th style='padding:4px;'>Visita</th>"
+        "<th style='padding:4px;'>Local</th>"
+        "<th style='padding:4px;'>Visita</th>"
+        "<th style='padding:4px;'></th>"
+        "</tr>"
+        "</thead>"
+        f"<tbody>{filas_var}</tbody>"
+        "</table><br>"
+    )
     st.markdown(html_var, unsafe_allow_html=True)
 
