@@ -257,77 +257,10 @@ with pestaña2:
     st.markdown(html_pred, unsafe_allow_html=True)
 
 ########################################################################################################
-with pestaña3:
-    st.subheader("🔍 VAR - Verificación de Predicciones")
-
-    nombres_disponibles = [nombre for nombre, _ in participantes]
-    seleccionado = st.selectbox("Selecciona un participante:", nombres_disponibles)
-
-    # Buscar el df del participante seleccionado
-    df_seleccionado = next(df for nombre, df in participantes if nombre == seleccionado)
-
-    # Construir tabla completa
-    filas_var = ""
-    total_puntos_var = 0
-
-    for i in range(78):
-        if i < len(df_resultado):
-            equipo_local_v  = df_resultado.iloc[i]["A"]
-            equipo_visita_v = df_resultado.iloc[i]["D"]
-        else:
-            equipo_local_v  = "-"
-            equipo_visita_v = "-"
-
-        if i < len(df_seleccionado):
-            pred_l = df_seleccionado.iloc[i]["B"]
-            pred_v = df_seleccionado.iloc[i]["C"]
-            puntos_v = df_seleccionado.iloc[i]["F"]
-        else:
-            pred_l = "-"
-            pred_v = "-"
-            puntos_v = None
-
-        # Resultado real
-        if i < p_jugados:
-            res_l = int(df_resultado.iloc[i]["B"])
-            res_v = int(df_resultado.iloc[i]["C"])
-            puntos_texto = str(int(puntos_v)) if pd.notna(puntos_v) else "-"
-            if pd.notna(puntos_v):
-                total_puntos_var += int(puntos_v)
-        else:
-            res_l = "-"
-            res_v = "-"
-            puntos_texto = "-"
-
-        # Color de la fila
-        if puntos_texto == "3":
-            estilo_fila = "background-color: rgba(0, 200, 83, 0.20);"
-        elif puntos_texto == "1":
-            estilo_fila = "background-color: rgba(255, 193, 7, 0.20);"
-        elif puntos_texto == "0":
-            estilo_fila = "background-color: rgba(244, 67, 54, 0.20);"
-        else:
-            estilo_fila = ""
-
-        pred_l_txt = str(int(pred_l)) if pd.notna(pred_l) and pred_l != "-" else "-"
-        pred_v_txt = str(int(pred_v)) if pd.notna(pred_v) and pred_v != "-" else "-"
-
-        filas_var += f"""
-        <tr style='{estilo_fila}'>
-            <td style='padding:6px;'>{equipo_local_v}</td>
-            <td style='padding:6px;'>{equipo_visita_v}</td>
-            <td style='padding:6px;'>{pred_l_txt}</td>
-            <td style='padding:6px;'>{pred_v_txt}</td>
-            <td style='padding:6px;'>{res_l}</td>
-            <td style='padding:6px;'>{res_v}</td>
-            <td style='padding:6px; font-weight:bold;'>{puntos_texto}</td>
-        </tr>
-        """
-
-    # Reemplaza desde "html_var = f"""  hasta  "st.markdown(html_var...)"  por esto:
+import streamlit.components.v1 as components
 
     html_var = (
-        "<table style='width:100%; text-align:center; border-collapse:collapse;'>"
+        "<table style='width:100%; text-align:center; border-collapse:collapse; font-family:sans-serif; color:white;'>"
         "<thead>"
         "<tr style='background-color: rgba(128,128,128,0.15);'>"
         f"<th colspan='7' style='padding:10px; font-size:1.1em;'>Total puntos: {total_puntos_var}</th>"
@@ -349,7 +282,8 @@ with pestaña3:
         "</tr>"
         "</thead>"
         f"<tbody>{filas_var}</tbody>"
-        "</table><br>"
+        "</table>"
     )
-    st.markdown(html_var, unsafe_allow_html=True)
+
+    components.html(html_var, height=2200, scrolling=True)
 
