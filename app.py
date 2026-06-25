@@ -42,20 +42,38 @@ def CALCULAR_PUNTOS(df_resultado, df_participante):
     df_participante["E"] = np.where(df_participante["B"] > df_participante["C"], "L",
                             np.where(df_participante["B"] < df_participante["C"], "V", "E"))
 
-    p_jugados = int(df_resultado["H"].count())
+    # Máscara de partidos con resultado real (H no nulo), sin asumir continuidad
+    mask_jugados = df_resultado["H"].notna()
+    indices_jugados = df_resultado.index[mask_jugados]
 
-    if p_jugados == 0:
-        df_participante["F"] = None
+    df_participante["F"] = None
+
+    if len(indices_jugados) == 0:
         return df_participante
 
-    condiciones = [
-        (df_resultado["B"][:p_jugados] == df_participante["B"][:p_jugados]) &
-        (df_resultado["C"][:p_jugados] == df_participante["C"][:p_jugados]),
-        (df_resultado["E"][:p_jugados] == df_participante["E"][:p_jugados])
-    ]
-    valores = [3, 1]
-    df_participante["F"] = None
-    df_participante.loc[:p_jugados - 1, "F"] = np.select(condiciones, valores, default=0)
+    for i in indices_jugados:
+        if i >= len(df_participante):
+            continue
+
+        res_b = df_resultado.iloc[i]["B"]
+        res_c = df_resultado.iloc[i]["C"]
+        res_e = df_resultado.iloc[i]["E"]
+
+        # Si el resultado tiene NaN en goles, saltar
+        if pd.isna(res_b) or pd.isna(res_c):
+            continue
+
+        pred_b = df_participante.iloc[i]["B"]
+        pred_c = df_participante.iloc[i]["C"]
+        pred_e = df_participante.iloc[i]["E"]
+
+        if pred_b == res_b and pred_c == res_c:
+            df_participante.at[i, "F"] = 3
+        elif pred_e == res_e:
+            df_participante.at[i, "F"] = 1
+        else:
+            df_participante.at[i, "F"] = 0
+
     return df_participante
 
 
@@ -102,7 +120,10 @@ def PREDICCIONES(participantes, total, df_resultado):
 
 df_resultado = pd.read_excel("resultados.xlsx", header=None,
                              names=["A","B","C","D","E","F","G","H"])
+
+# p_jugados se usa solo para UI (navegación inicial), NO para lógica de puntos
 p_jugados = int(df_resultado["H"].count())
+
 df_resultado["E"] = np.where(df_resultado["B"] > df_resultado["C"], "L",
                     np.where(df_resultado["B"] < df_resultado["C"], "V", "E"))
 
@@ -196,9 +217,12 @@ with pestaña2:
     url_l = bandera_url(equipo_local)
     url_v = bandera_url(equipo_visita)
 
-    if st.session_state.fecha <= p_jugados:
-        gol_l = df_resultado.iloc[st.session_state.fecha - 1]["B"]
-        gol_v = df_resultado.iloc[st.session_state.fecha - 1]["C"]
+    # CORRECCIÓN: verificar fila por fila si tiene goles, sin depender de p_jugados
+    fila_actual = df_resultado.iloc[st.session_state.fecha - 1]
+    gol_l = fila_actual["B"]
+    gol_v = fila_actual["C"]
+
+    if pd.notna(gol_l) and pd.notna(gol_v):
         marcador_texto = f"{int(gol_l)} - {int(gol_v)}"
     else:
         marcador_texto = "vs"
@@ -281,9 +305,17 @@ with pestaña3:
             pred_v   = "-"
             puntos_v = None
 
-        if i < p_jugados:
-            res_l        = int(df_resultado.iloc[i]["B"])
-            res_v        = int(df_resultado.iloc[i]["C"])
+        # CORRECCIÓN: verificar fila por fila si tiene resultado real
+        fila_res = df_resultado.iloc[i] if i < len(df_resultado) else None
+        tiene_resultado = (
+            fila_res is not None
+            and pd.notna(fila_res["B"])
+            and pd.notna(fila_res["C"])
+        )
+
+        if tiene_resultado:
+            res_l        = int(fila_res["B"])
+            res_v        = int(fila_res["C"])
             puntos_texto = str(int(puntos_v)) if pd.notna(puntos_v) else "-"
             if pd.notna(puntos_v):
                 total_puntos_var += int(puntos_v)
