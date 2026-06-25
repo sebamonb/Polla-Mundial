@@ -129,7 +129,7 @@ st.markdown("""
 
 st.title("🏆 Polla Mundial")
 
-pestaña1, pestaña2, pestaña3 = st.tabs(["Tabla General", "Predicciones por Fecha", "VAR"])
+pestaña1, pestaña2, pestaña3, pestaña4 = st.tabs(["Tabla General", "Predicciones por Fecha", "VAR", "Segunda Ronda"])
 
 ########################################################################################################
 with pestaña1:
@@ -345,3 +345,39 @@ with pestaña3:
     )
 
     components.html(html_var, height=2200, scrolling=True)
+
+
+########################################################################################################
+with pestaña4:
+    st.subheader("Segunda Ronda")
+    st.write("Ingrese los resultados acá:")
+
+    st.divider()
+
+    url_l = bandera_url("Sudafrica")
+    url_v = bandera_url("Canada")
+
+    c1, c2, c3, c4, c5 = st.columns([1, 3, 1, 3, 1])
+    with c1:
+        if url_l:
+            st.image(url_l, width=60)
+    with c2:
+        st.markdown("<h2 style='text-align:center'>Sudáfrica</h2>", unsafe_allow_html=True)
+    with c3:
+        st.markdown("<h2 style='text-align:center'>vs</h2>", unsafe_allow_html=True)
+    with c4:
+        st.markdown("<h2 style='text-align:center'>Canadá</h2>", unsafe_allow_html=True)
+    with c5:
+        if url_v:
+            st.image(url_v, width=60)
+
+    st.divider()
+
+    st.markdown(
+        "<div style='text-align:center; margin-top:20px;'>"
+        "<a href='https://forms.gle/v8JWc3yuTbEc2H169' target='_blank' "
+        "style='font-size:1.2em; padding:12px 24px; background-color:#00C853; color:white; "
+        "border-radius:8px; text-decoration:none;'>📝 Ir al formulario de predicciones</a>"
+        "</div>",
+        unsafe_allow_html=True
+    )
