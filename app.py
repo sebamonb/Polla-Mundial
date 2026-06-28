@@ -382,34 +382,44 @@ with pestaña3:
 ########################################################################################################
 with pestaña4:
     st.subheader("Segunda Ronda")
-    st.write("Ingrese los resultados acá:")
-
     st.divider()
 
-    url_l = bandera_url("Sudafrica")
-    url_v = bandera_url("Canada")
-
-    c1, c2, c3, c4, c5 = st.columns([1, 3, 1, 3, 1])
-    with c1:
-        if url_l:
-            st.image(url_l, width=60)
-    with c2:
-        st.markdown("<h2 style='text-align:center'>Sudáfrica</h2>", unsafe_allow_html=True)
-    with c3:
-        st.markdown("<h2 style='text-align:center'>vs</h2>", unsafe_allow_html=True)
-    with c4:
-        st.markdown("<h2 style='text-align:center'>Canadá</h2>", unsafe_allow_html=True)
-    with c5:
-        if url_v:
-            st.image(url_v, width=60)
-
-    st.divider()
-
+    # --- 16avos (partidos 29/06) ---
+    st.markdown("<h3 style='text-align:center; margin-bottom:8px;'>16avos (partidos 29/06)</h3>", unsafe_allow_html=True)
     st.markdown(
-        "<div style='text-align:center; margin-top:20px;'>"
-        "<a href='https://forms.gle/v8JWc3yuTbEc2H169' target='_blank' "
+        "<div style='text-align:center; margin-bottom:24px;'>"
+        "<a href='https://forms.gle/be8kNpmH1ZLXTATJ6' target='_blank' "
         "style='font-size:1.2em; padding:12px 24px; background-color:#00C853; color:white; "
-        "border-radius:8px; text-decoration:none;'>📝 Ir al formulario de predicciones</a>"
+        "border-radius:8px; text-decoration:none;'>📝 Ir al formulario</a>"
+        "</div>",
+        unsafe_allow_html=True
+    )
+
+    # --- 16avos (partidos restantes) ---
+    st.markdown("<h3 style='text-align:center; margin-bottom:8px;'>16avos (partidos restantes)</h3>", unsafe_allow_html=True)
+    st.markdown(
+        "<div style='text-align:center; margin-bottom:24px;'>"
+        "<a href='https://forms.gle/PNJYJEAwyscbhkqT7' target='_blank' "
+        "style='font-size:1.2em; padding:12px 24px; background-color:#00C853; color:white; "
+        "border-radius:8px; text-decoration:none;'>📝 Ir al formulario</a>"
+        "</div>",
+        unsafe_allow_html=True
+    )
+
+    # --- Predicción de Campeón ---
+    st.markdown("<h3 style='text-align:center; margin-bottom:8px;'>Predicción de Campeón</h3>", unsafe_allow_html=True)
+    st.markdown(
+        "<div style='text-align:center; margin-bottom:8px;'>"
+        "<a href='https://forms.gle/attKsTchSbQASWDg9' target='_blank' "
+        "style='font-size:1.2em; padding:12px 24px; background-color:#1565C0; color:white; "
+        "border-radius:8px; text-decoration:none;'>🏆 Ir al formulario</a>"
+        "</div>",
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        "<div style='text-align:center; color:gray; font-size:0.85em; margin-top:6px;'>"
+        "Se aceptan respuestas hasta el inicio del partido de Brasil v/s Japón. "
+        "Cualquier respuesta posterior no será considerada."
         "</div>",
         unsafe_allow_html=True
     )
