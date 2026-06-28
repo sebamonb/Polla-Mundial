@@ -418,7 +418,7 @@ with pestaña4:
     )
     st.markdown(
         "<div style='text-align:center; color:gray; font-size:0.85em; margin-top:6px;'>"
-        "Se aceptan respuestas hasta el inicio del partido de Brasil v/s Japón. "
+        " Para la predicción de campeón se aceptan respuestas hasta antes del inicio del partido de Brasil v/s Japón. "
         "Cualquier respuesta posterior no será considerada."
         "</div>",
         unsafe_allow_html=True
