@@ -35,12 +35,45 @@ def bandera_url(pais):
 
 # ---- FUNCIONES ----
 
+def es_numero(valor):
+    """
+    True si 'valor' es una predicción numérica válida.
+    False si es NaN, o texto tipo 'X' / '-' (sin predicción / partido futuro).
+    """
+    if pd.isna(valor):
+        return False
+    if isinstance(valor, str):
+        if valor.strip().upper() in ("X", "-", ""):
+            return False
+        try:
+            float(valor)
+            return True
+        except ValueError:
+            return False
+    return True
+
+
 def CALCULAR_PUNTOS(df_resultado, df_participante):
     df_participante = df_participante.reset_index(drop=True)
     df_resultado    = df_resultado.reset_index(drop=True)
 
-    df_participante["E"] = np.where(df_participante["B"] > df_participante["C"], "L",
-                            np.where(df_participante["B"] < df_participante["C"], "V", "E"))
+    # Marca por fila si la predicción del participante es numérica válida
+    df_participante["valido"] = df_participante.apply(
+        lambda row: es_numero(row["B"]) and es_numero(row["C"]), axis=1
+    )
+
+    def calcular_E(row):
+        if not (es_numero(row["B"]) and es_numero(row["C"])):
+            return None
+        b, c = float(row["B"]), float(row["C"])
+        if b > c:
+            return "L"
+        elif b < c:
+            return "V"
+        else:
+            return "E"
+
+    df_participante["E"] = df_participante.apply(calcular_E, axis=1)
 
     # Máscara de partidos con resultado real (H no nulo), sin asumir continuidad
     mask_jugados = df_resultado["H"].notna()
@@ -63,8 +96,13 @@ def CALCULAR_PUNTOS(df_resultado, df_participante):
         if pd.isna(res_b) or pd.isna(res_c):
             continue
 
-        pred_b = df_participante.iloc[i]["B"]
-        pred_c = df_participante.iloc[i]["C"]
+        # Si el participante no mandó una predicción numérica válida -> 0 puntos
+        if not df_participante.iloc[i]["valido"]:
+            df_participante.at[i, "F"] = 0
+            continue
+
+        pred_b = float(df_participante.iloc[i]["B"])
+        pred_c = float(df_participante.iloc[i]["C"])
         pred_e = df_participante.iloc[i]["E"]
 
         if pred_b == res_b and pred_c == res_c:
@@ -260,7 +298,13 @@ with pestaña2:
         else:
             estilo_puntos = ""
 
-        filas_pred += f"<tr><td>{row['Nombre']}</td><td>{row[equipo_local]}</td><td>{row[equipo_visita]}</td><td style='{estilo_puntos}'>{puntos}</td></tr>"
+        # Mostrar la predicción tal cual si es válida, o "X" si no lo es
+        val_l = row[equipo_local]
+        val_v = row[equipo_visita]
+        val_l_txt = str(int(float(val_l))) if es_numero(val_l) else ("-" if str(val_l).strip() == "-" else "X")
+        val_v_txt = str(int(float(val_v))) if es_numero(val_v) else ("-" if str(val_v).strip() == "-" else "X")
+
+        filas_pred += f"<tr><td>{row['Nombre']}</td><td>{val_l_txt}</td><td>{val_v_txt}</td><td style='{estilo_puntos}'>{puntos}</td></tr>"
 
     html_pred = f"""
     <table style="width:100%; text-align:center; border-collapse:collapse;">
@@ -333,8 +377,9 @@ with pestaña3:
         else:
             estilo_fila = ""
 
-        pred_l_txt = str(int(pred_l)) if pd.notna(pred_l) and pred_l != "-" else "-"
-        pred_v_txt = str(int(pred_v)) if pd.notna(pred_v) and pred_v != "-" else "-"
+        # CORRECCIÓN: si no es un número válido (p. ej. "X"), no intentar int(), mostrar "X"
+        pred_l_txt = str(int(float(pred_l))) if es_numero(pred_l) else ("-" if str(pred_l).strip() == "-" else "X")
+        pred_v_txt = str(int(float(pred_v))) if es_numero(pred_v) else ("-" if str(pred_v).strip() == "-" else "X")
 
         filas_var += (
             f"<tr style='{estilo_fila}'>"
