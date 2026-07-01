@@ -246,7 +246,7 @@ with pestaña2:
     with col2:
         st.markdown(f"### Partido {st.session_state.fecha}")
     with col3:
-        if st.button("▶") and st.session_state.fecha < 78:
+        if st.button("▶") and st.session_state.fecha < 104:
             st.session_state.fecha += 1
 
     df_fecha_actual = tablas_fechas[st.session_state.fecha - 1]
@@ -333,7 +333,7 @@ with pestaña3:
     filas_var = ""
     total_puntos_var = 0
 
-    for i in range(78):
+    for i in range(104):
         if i < len(df_resultado):
             equipo_local_v  = df_resultado.iloc[i]["A"]
             equipo_visita_v = df_resultado.iloc[i]["D"]
