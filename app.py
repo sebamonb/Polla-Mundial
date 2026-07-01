@@ -158,6 +158,7 @@ def PREDICCIONES(participantes, total, df_resultado):
 
 df_resultado = pd.read_excel("resultados.xlsx", header=None,
                              names=["A","B","C","D","E","F","G","H"])
+total_partidos = len(df_resultado)
 
 # p_jugados se usa solo para UI (navegación inicial), NO para lógica de puntos
 p_jugados = int(df_resultado["H"].count())
