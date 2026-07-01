@@ -128,7 +128,7 @@ def TABLA_PUNTAJES(participantes):
 
 def PREDICCIONES(participantes, total, df_resultado):
     tablas_fechas = []
-    for i in range(total):
+    for i in range(len(df_resultado)):
         if i < len(df_resultado):
             equipo_local   = df_resultado.iloc[i]["A"]
             equipo_visita  = df_resultado.iloc[i]["D"]
