@@ -444,8 +444,7 @@ with pestaña4:
     
     st.markdown(
         "<div style='text-align:center; color:gray; font-size:0.85em; margin-top:6px;'>"
-        " Para la predicción de campeón se aceptan respuestas hasta antes del inicio del partido de Brasil v/s Japón. "
-        "Cualquier respuesta posterior no será considerada."
+        "Los resultados de los partidos de 8vos (parte 1) se deben enviar antes de: Viernes 03/07 23:59hrs"
         "</div>",
         unsafe_allow_html=True
     )
