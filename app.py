@@ -430,38 +430,18 @@ with pestaña4:
     st.subheader("Segunda Ronda")
     st.divider()
 
-    # --- 16avos (partidos 29/06) ---
-    st.markdown("<h3 style='text-align:center; margin-bottom:8px;'>16avos (partidos 29/06)</h3>", unsafe_allow_html=True)
+    # --- 8avos (parte 1) ---
+    st.markdown("<h3 style='text-align:center; margin-bottom:8px;'>8avos (parte 1)</h3>", unsafe_allow_html=True)
     st.markdown(
         "<div style='text-align:center; margin-bottom:24px;'>"
-        "<a href='https://forms.gle/be8kNpmH1ZLXTATJ6' target='_blank' "
+        "<a href='https://forms.gle/8WFbk6tpb7vUXYqr6' target='_blank' "
         "style='font-size:1.2em; padding:12px 24px; background-color:#00C853; color:white; "
         "border-radius:8px; text-decoration:none;'>📝 Ir al formulario</a>"
         "</div>",
         unsafe_allow_html=True
     )
 
-    # --- 16avos (partidos restantes) ---
-    st.markdown("<h3 style='text-align:center; margin-bottom:8px;'>16avos (partidos restantes)</h3>", unsafe_allow_html=True)
-    st.markdown(
-        "<div style='text-align:center; margin-bottom:24px;'>"
-        "<a href='https://forms.gle/PNJYJEAwyscbhkqT7' target='_blank' "
-        "style='font-size:1.2em; padding:12px 24px; background-color:#00C853; color:white; "
-        "border-radius:8px; text-decoration:none;'>📝 Ir al formulario</a>"
-        "</div>",
-        unsafe_allow_html=True
-    )
-
-    # --- Predicción de Campeón ---
-    st.markdown("<h3 style='text-align:center; margin-bottom:8px;'>Predicción de Campeón</h3>", unsafe_allow_html=True)
-    st.markdown(
-        "<div style='text-align:center; margin-bottom:8px;'>"
-        "<a href='https://forms.gle/attKsTchSbQASWDg9' target='_blank' "
-        "style='font-size:1.2em; padding:12px 24px; background-color:#1565C0; color:white; "
-        "border-radius:8px; text-decoration:none;'>🏆 Ir al formulario</a>"
-        "</div>",
-        unsafe_allow_html=True
-    )
+    
     st.markdown(
         "<div style='text-align:center; color:gray; font-size:0.85em; margin-top:6px;'>"
         " Para la predicción de campeón se aceptan respuestas hasta antes del inicio del partido de Brasil v/s Japón. "
