@@ -440,11 +440,21 @@ with pestaña4:
         "</div>",
         unsafe_allow_html=True
     )
+      # --- 8avos (parte 2) ---
+    st.markdown("<h3 style='text-align:center; margin-bottom:8px;'>8avos (parte 2)</h3>", unsafe_allow_html=True)
+    st.markdown(
+        "<div style='text-align:center; margin-bottom:24px;'>"
+        "<a href='ttps://forms.gle/75opcHAyC4umaMps7' target='_blank' "
+        "style='font-size:1.2em; padding:12px 24px; background-color:#00C853; color:white; "
+        "border-radius:8px; text-decoration:none;'>📝 Ir al formulario</a>"
+        "</div>",
+        unsafe_allow_html=True
+    )
 
-    
+    h
     st.markdown(
         "<div style='text-align:center; color:gray; font-size:0.85em; margin-top:6px;'>"
-        "Los resultados de los partidos de 8vos (parte 1) se deben enviar antes de: Viernes 03/07 23:59hrs"
+        "Los resultados de los partidos de 8vos (parte 2) se deben enviar antes de: Domingo 05/07 23:59hrs."
         "</div>",
         unsafe_allow_html=True
     )
