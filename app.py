@@ -430,11 +430,11 @@ with pestaña4:
     st.subheader("Segunda Ronda")
     st.divider()
 
-      # --4tos  ---
-    st.markdown("<h3 style='text-align:center; margin-bottom:8px;'>4tos de final</h3>", unsafe_allow_html=True)
+      # --Semis--
+    st.markdown("<h3 style='text-align:center; margin-bottom:8px;'>Semifinales</h3>", unsafe_allow_html=True)
     st.markdown(
         "<div style='text-align:center; margin-bottom:24px;'>"
-        "<a href='https://forms.gle/xGAi8DtfCh5xStXbA' target='_blank' "
+        "<a href='https://forms.gle/duDXgEMYM7rt9qNb7' target='_blank' "
         "style='font-size:1.2em; padding:12px 24px; background-color:#00C853; color:white; "
         "border-radius:8px; text-decoration:none;'>📝 Ir al formulario</a>"
         "</div>",
@@ -444,7 +444,7 @@ with pestaña4:
     
     st.markdown(
         "<div style='text-align:center; color:gray; font-size:0.85em; margin-top:6px;'>"
-        "Los resultados de los partidos de 4tos ed final se deben enviar antes de: Miercoles 08/07 23:59hrs."
+        "Los resultados de los partidos de 4tos ed final se deben enviar antes de: Lunes 13/07 23:59hrs."
         "</div>",
         unsafe_allow_html=True
     )
