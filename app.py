@@ -426,25 +426,91 @@ with pestaña3:
 
 
 ########################################################################################################
+
+PREDICCIONES_CAMPEON = [
+    ("CMG", "Portugal"),
+    ("DTG", "Paraguay"),
+    ("HBM", "Paises Bajos"),
+    ("HBM", "Paises Bajos"),
+    ("DVK", "Francia"),
+    ("JVA", "Francia"),
+    ("BPV", "Francia"),
+    ("MMP", "Francia"),
+    ("DSs", "Francia"),
+    ("AAZ", "Francia"),
+    ("ALM", "Francia"),
+    ("JOV", "Francia"),
+    ("KBA", "Francia"),
+    ("FMA", "Francia"),
+    ("JHR", "Francia"),
+    ("FSS", "Francia"),
+    ("FAM", "Francia"),
+    ("KMB", "Francia"),
+    ("DRO", "Francia"),
+    ("RVG", "Francia"),
+    ("CRR", "Francia"),
+    ("BGG", "Francia"),
+    ("ARF", "Francia"),
+    ("JSN", "Francia"),
+    ("RAM", "España"),
+    ("MEC", "España"),
+    ("AIC", "España"),
+    ("ANA", "España"),
+    ("AVP", "Brasil"),
+    ("FMM", "Argentina"),
+    ("TOG", "Argentina"),
+    ("JSVm", "Argentina"),
+    ("LBG", "Argentina"),
+    ("HHF", "Argentina"),
+    ("JAC", "Argentina"),
+    ("FRG", "Argentina"),
+]
+
+def AGRUPAR_CAMPEON(predicciones):
+    grupos = defaultdict(list)
+    for nombre, pais in predicciones:
+        grupos[pais].append(nombre)
+    # Ordenar países por cantidad de votos (desc) y luego alfabéticamente
+    paises_ordenados = sorted(grupos.keys(), key=lambda p: (-len(grupos[p]), p))
+    return [(pais, grupos[pais]) for pais in paises_ordenados]
+
+
+########################################################################################################
 with pestaña4:
-    st.subheader("Segunda Ronda")
+    st.subheader("🔮 Predicción de Campeón")
+    st.write(f"Total de predicciones: {len(PREDICCIONES_CAMPEON)}")
     st.divider()
 
-      # --Final y tercer lugar--
-    st.markdown("<h3 style='text-align:center; margin-bottom:8px;'>Final y tercer lugar</h3>", unsafe_allow_html=True)
-    st.markdown(
-        "<div style='text-align:center; margin-bottom:24px;'>"
-        "<a href='https://forms.gle/6VGP6vHra4Xt64y87' target='_blank' "
-        "style='font-size:1.2em; padding:12px 24px; background-color:#00C853; color:white; "
-        "border-radius:8px; text-decoration:none;'>📝 Ir al formulario</a>"
-        "</div>",
-        unsafe_allow_html=True
-    )
+    grupos_campeon = AGRUPAR_CAMPEON(PREDICCIONES_CAMPEON)
 
-    
-    st.markdown(
-        "<div style='text-align:center; color:gray; font-size:0.85em; margin-top:6px;'>"
-        "Los resultados de los partidos se aceptan hasta el inicio de los mismos."
-        "</div>",
-        unsafe_allow_html=True
-    )
+    # Recorremos los países de a dos por fila, como en la referencia visual
+    for idx in range(0, len(grupos_campeon), 2):
+        par = grupos_campeon[idx: idx + 2]
+        cols = st.columns(2)
+        for col, (pais, nombres) in zip(cols, par):
+            url_bandera = bandera_url(pais if pais != "España" else "Espana")
+            bandera_html = (
+                f"<img src='{url_bandera}' width='28' style='vertical-align:middle; margin-right:8px; border-radius:2px;'>"
+                if url_bandera else ""
+            )
+            filas_nombres = "".join(
+                f"<div style='font-size:1.05em; margin:6px 0; color:white;'>{n}</div>"
+                for n in nombres
+            )
+            box_html = f"""
+            <div style='
+                border: 1px solid #ffffff55;
+                border-radius: 6px;
+                padding: 24px 16px;
+                margin-bottom: 24px;
+                text-align: center;
+                background-color: rgba(255,255,255,0.03);
+            '>
+                <div style='font-size:1.15em; font-weight:700; letter-spacing:1px; color:white; margin-bottom:20px;'>
+                    {bandera_html}{pais.upper()}
+                </div>
+                {filas_nombres}
+            </div>
+            """
+            with col:
+                st.markdown(box_html, unsafe_allow_html=True)
